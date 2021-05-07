@@ -50,7 +50,7 @@
 import { mapMutations, mapState } from "vuex";
 import Store from "../store/index";
 export default {
-  name: "Nodos",
+  name: "Nodo",
   created() {},
   data() {
     return {

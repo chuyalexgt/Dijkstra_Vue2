@@ -17,7 +17,7 @@
           asasas
         </line>
       </svg>
-      <nodos
+      <Nodo
         v-for="N in Grafo"
         :key="N.id"
         :id="N.id"
@@ -91,7 +91,7 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
-import Nodos from "./Nodos.vue";
+import Nodo from "./Nodo.vue";
 import Store from "../store/index";
 export default {
   name: "Grafo",
@@ -105,7 +105,7 @@ export default {
     };
   },
   components: {
-    Nodos,
+    Nodo,
   },
   methods: {
     ...mapMutations(["Insertar_nodo", "Eliminar_nodo", "Refresh", "Verificar","close_message"]),
