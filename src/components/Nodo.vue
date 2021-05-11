@@ -1,10 +1,10 @@
 <template>
-  <div v-bind:class="{ par : id%2 == 0 }">
+  <div v-bind:class="{ par: id % 2 == 0 }">
     <div>
       <div>
         <button class="node" :id="create_id()" @click="Task(tool)">
           <span>{{ `N->${id}` }}</span>
-          <span>{{ `D= ${Grafo[id].min_dist}` }}</span>
+          <span>{{ `D= ${Grafo[id].minDistance}` }}</span>
         </button>
       </div>
     </div>
@@ -35,9 +35,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" @click="validate" text>
-                Save
-              </v-btn>
+              <v-btn color="blue darken-1" @click="validate" text> Save </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -63,41 +61,41 @@ export default {
   },
   props: ["id", "tool"],
   computed: {
-    ...mapState(["Grafo", "edge_data"]),
+    ...mapState(["Grafo", "edgeData"]),
   },
   methods: {
-    ...mapMutations(["Definir_origen", "Añadir_edge"]),
+    ...mapMutations(["definirOrigen", "añadirEdge"]),
     Task(tool) {
       if (this.ready_to_merge) {
-        Store.state.edge_data.value_edge = parseInt(this.value,10);
+        Store.state.edgeData.valueEdge = parseInt(this.value, 10);
         this.value = undefined;
-        this.Añadir_edge();
-        Store.state.edge_data.value_edge = undefined;
-        Store.state.edge_data.a = undefined;
-        Store.state.edge_data.b = undefined;
+        this.añadirEdge();
+        Store.state.edgeData.valueEdge = undefined;
+        Store.state.edgeData.a = undefined;
+        Store.state.edgeData.b = undefined;
         this.ready_to_merge = false;
         return;
       }
       if (tool == "S-O") {
-        this.Definir_origen(this.id);
+        this.definirOrigen(this.id);
         return;
       }
       if (tool == "C-E") {
         this.calculate_pos();
         if (
-          (Store.state.edge_data.a == undefined) &
-          (Store.state.edge_data.b == undefined)
+          (Store.state.edgeData.a == undefined) &
+          (Store.state.edgeData.b == undefined)
         ) {
-          Store.state.edge_data.a = this.id;
-          Store.state.edge_data.a_pos = this.position;
+          Store.state.edgeData.a = this.id;
+          Store.state.edgeData.aPos = this.position;
           return;
         }
         if (
-          (Store.state.edge_data.a != undefined) &
-          (Store.state.edge_data.b == undefined) //
+          (Store.state.edgeData.a != undefined) &
+          (Store.state.edgeData.b == undefined) //
         ) {
-          Store.state.edge_data.b = this.id;
-          Store.state.edge_data.b_pos = this.position;
+          Store.state.edgeData.b = this.id;
+          Store.state.edgeData.bPos = this.position;
           this.dialog = true;
           return;
         }
@@ -139,8 +137,8 @@ export default {
   border-radius: 50%;
   margin: 40px;
 }
-.par{
+.par {
   flex-grow: 2;
-  margin-top: 80px
+  margin-top: 80px;
 }
 </style>
