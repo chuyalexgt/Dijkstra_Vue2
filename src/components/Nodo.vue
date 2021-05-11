@@ -2,7 +2,7 @@
   <div v-bind:class="{ par: id % 2 == 0 }">
     <div>
       <div>
-        <button class="node" :id="create_id()" @click="Task(tool)">
+        <button class="node" :id="createId()" @click="task(tool)">
           <span>{{ `N->${id}` }}</span>
           <span>{{ `D= ${Grafo[id].minDistance}` }}</span>
         </button>
@@ -55,7 +55,7 @@ export default {
       dialog: false,
       formRules: [(v) => v > -1 || "ingresa un numero"],
       value: undefined,
-      ready_to_merge: false,
+      readyToMerge: false,
       position: undefined,
     };
   },
@@ -65,15 +65,15 @@ export default {
   },
   methods: {
     ...mapMutations(["definirOrigen", "añadirEdge"]),
-    Task(tool) {
-      if (this.ready_to_merge) {
+    task(tool) {
+      if (this.readyToMerge) {
         Store.state.edgeData.valueEdge = parseInt(this.value, 10);
         this.value = undefined;
         this.añadirEdge();
         Store.state.edgeData.valueEdge = undefined;
         Store.state.edgeData.a = undefined;
         Store.state.edgeData.b = undefined;
-        this.ready_to_merge = false;
+        this.readyToMerge = false;
         return;
       }
       if (tool == "S-O") {
@@ -81,7 +81,7 @@ export default {
         return;
       }
       if (tool == "C-E") {
-        this.calculate_pos();
+        this.calculatePosition();
         if (
           (Store.state.edgeData.a == undefined) &
           (Store.state.edgeData.b == undefined)
@@ -104,14 +104,14 @@ export default {
     validate() {
       if (this.$refs.form.validate()) {
         this.dialog = false;
-        this.ready_to_merge = true;
-        this.Task();
+        this.readyToMerge = true;
+        this.task();
       }
     },
-    create_id() {
+    createId() {
       return this.id;
     },
-    calculate_pos() {
+    calculatePosition() {
       let nodo = document.getElementById(`${this.id}`);
       let p = nodo.getBoundingClientRect();
       this.position = {

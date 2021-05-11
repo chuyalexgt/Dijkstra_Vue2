@@ -5,19 +5,17 @@
     </div>
     <div class="node-container">
       <svg class="connectors">
-        <line
+        <Edge
           v-for="E in edgesToRender"
           :key="E.id"
           :x1="E.position.a.x"
           :y1="E.position.a.y"
           :x2="E.position.b.x"
           :y2="E.position.b.y"
-          @mouseover="show_value(E.peso)"
-        >
-          asasas
-        </line>
+          :peso="E.peso"
+        ></Edge>
       </svg>
-      <Nodo v-for="N in Grafo" :key="N.id" :id="N.id" :tool="selected_option" />
+      <Nodo v-for="N in Grafo" :key="N.id" :id="N.id" :tool="selectedOption" />
     </div>
     <div class="grafo-adm">
       <div id="+-">
@@ -41,13 +39,12 @@
       </div>
       <label for="+-">*Añadir o eliminar un nodo eliminará todas las aristas</label>
       <br />
-      <input type="radio" id="select_origin" value="S-O" v-model="selected_option" />
+      <input type="radio" id="select_origin" value="S-O" v-model="selectedOption" />
       <label for="select_origin">Seleccionar origen</label>
       <br />
-      <input type="radio" id="create_edge" value="C-E" v-model="selected_option" />
+      <input type="radio" id="create_edge" value="C-E" v-model="selectedOption" />
       <label for="create_edge">Crear arista (relecciona dos nodos para unirlos)</label>
       <div>Coloca el cursor sobre la arista para visualizar su valor</div>
-      <div>valor arista: {{ value }}</div>
       <br />
     </div>
   </div>
@@ -57,19 +54,20 @@
 import { mapMutations, mapState } from "vuex";
 import Nodo from "./Nodo.vue";
 import Store from "../store/index";
+import Edge from "./Edge";
 export default {
   name: "Grafo",
   created() {},
   data() {
     return {
-      selected_option: "",
+      selectedOption: "",
       process: false,
       timeout: 20000,
-      value: "",
     };
   },
   components: {
     Nodo,
+    Edge,
   },
   methods: {
     ...mapMutations([
@@ -122,9 +120,6 @@ export default {
     },
     reload() {
       location.reload();
-    },
-    show_value(peso) {
-      this.value = peso;
     },
   },
   computed: {
