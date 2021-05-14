@@ -97,6 +97,8 @@ export default {
           Store.state.edgeData.b = this.id;
           Store.state.edgeData.bPos = this.position;
           this.dialog = true;
+          console.log(Store.state.edgesToRender);
+          console.log(Store.state.createdEdges);
           return;
         }
       }

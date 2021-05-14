@@ -65,18 +65,18 @@ export default new Vuex.Store({
       }
       let edge = {peso : state.edgeData.valueEdge, route : {in : state.edgeData.a,out : state.edgeData.b}, position : { a : state.edgeData.aPos, b : state.edgeData.bPos}, id : state.edgeCounter }
       for (let i of state.createdEdges){
-        if( i == (`${edge.peso}-${edge.route.in}-${edge.route.out}`)|(`${edge.peso}-${edge.route.out}-${edge.route.in}`)){
+        if( i == (`${edge.route.in}-${edge.route.out}`)|(`-${edge.route.out}-${edge.route.in}`)){
           state.messageActivator = true
           state.message = "ya existe una arista entre esos dos nodos"
           return
         }
       }
-      state.createdEdges.push(`${edge.peso}-${edge.route.in}-${edge.route.out}`)
+      state.createdEdges.push(`${edge.route.in}-${edge.route.out}`)
       state.edgesToRender.push(edge)
       state.Grafo[`${state.edgeData.a}`].edges.push(edge)
       state.edgeCounter ++
       edge = {peso : state.edgeData.valueEdge , route : {in : state.edgeData.b,out : state.edgeData.a}, position : { a : state.edgeData.bPos, b : state.edgeData.aPos}, id : state.edgeCounter  }
-      state.createdEdges.push(`${edge.peso}-${edge.route.in}-${edge.route.out}`)
+      state.createdEdges.push(`${edge.route.in}-${edge.route.out}`)
       state.Grafo[`${state.edgeData.b}`].edges.push(edge)
       state.edgeCounter ++
   },
