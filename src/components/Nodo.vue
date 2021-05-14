@@ -21,17 +21,17 @@
               <span class="headline">Definir valor de arista</span>
             </v-card-title>
             <v-card-text>
-              <v-form lazy-validation ref="form">
-                <v-col cols="12" md="4">
-                  <v-text-field
-                    v-model="value"
-                    label="Edge value"
-                    :rules="formRules"
-                    required
-                  >
-                  </v-text-field>
-                </v-col>
-              </v-form>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model="value"
+                  label="Edge value"
+                  :rules="formRules"
+                  required
+                  v-on:keyup.enter="validate"
+                  ref="form"
+                >
+                </v-text-field>
+              </v-col>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
