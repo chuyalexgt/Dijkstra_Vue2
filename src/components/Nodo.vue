@@ -8,7 +8,7 @@
         </button>
       </div>
     </div>
-    <template v-if="dialog">
+    <v-container v-if="dialog">
       <v-app>
         <v-dialog
           v-model="dialog"
@@ -40,7 +40,7 @@
           </v-card>
         </v-dialog>
       </v-app>
-    </template>
+    </v-container>
   </div>
 </template>
 

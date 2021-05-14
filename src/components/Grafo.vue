@@ -44,7 +44,6 @@
       <br />
       <input type="radio" id="create_edge" value="C-E" v-model="selectedOption" />
       <label for="create_edge">Crear arista (relecciona dos nodos para unirlos)</label>
-      <div>Coloca el cursor sobre la arista para visualizar su valor</div>
       <br />
     </div>
   </div>
