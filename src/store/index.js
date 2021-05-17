@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     nodosCreados: 0,
     maxNodos: 30,
@@ -131,3 +131,5 @@ export default new Vuex.Store({
   },
 
 })
+
+export default store

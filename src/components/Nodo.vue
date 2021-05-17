@@ -46,7 +46,6 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
-import Store from "../store/index";
 export default {
   name: "Nodo",
   created() {},
@@ -67,12 +66,12 @@ export default {
     ...mapMutations(["definirOrigen", "añadirEdge"]),
     task(tool) {
       if (this.readyToMerge) {
-        Store.state.edgeData.valueEdge = parseInt(this.value, 10);
+        this.edgeData.valueEdge = parseInt(this.value, 10);
         this.value = undefined;
         this.añadirEdge();
-        Store.state.edgeData.valueEdge = undefined;
-        Store.state.edgeData.a = undefined;
-        Store.state.edgeData.b = undefined;
+        this.edgeData.valueEdge = undefined;
+        this.edgeData.a = undefined;
+        this.edgeData.b = undefined;
         this.readyToMerge = false;
         return;
       }
@@ -82,23 +81,18 @@ export default {
       }
       if (tool == "C-E") {
         this.calculatePosition();
-        if (
-          (Store.state.edgeData.a == undefined) &
-          (Store.state.edgeData.b == undefined)
-        ) {
-          Store.state.edgeData.a = this.id;
-          Store.state.edgeData.aPos = this.position;
+        if ((this.edgeData.a == undefined) & (this.edgeData.b == undefined)) {
+          this.edgeData.a = this.id;
+          this.edgeData.aPos = this.position;
           return;
         }
         if (
-          (Store.state.edgeData.a != undefined) &
-          (Store.state.edgeData.b == undefined) //
+          (this.edgeData.a != undefined) &
+          (this.edgeData.b == undefined) //
         ) {
-          Store.state.edgeData.b = this.id;
-          Store.state.edgeData.bPos = this.position;
+          this.edgeData.b = this.id;
+          this.edgeData.bPos = this.position;
           this.dialog = true;
-          console.log(Store.state.edgesToRender);
-          console.log(Store.state.createdEdges);
           return;
         }
       }

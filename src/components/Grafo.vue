@@ -15,9 +15,9 @@
           :peso="E.peso"
         ></Edge>
       </svg>
-      <Nodo v-for="N in Grafo" :key="N.id" :id="N.id" :tool="selectedOption" />
+      <Nodo v-for="N in this.Grafo" :key="N.id" :id="N.id" :tool="selectedOption" />
     </div>
-    <div class="grafo-adm">
+    <div class="this.Grafo-adm">
       <div id="+-">
         <v-btn class="boton" :disabled="process" elevation="2" small @click="insertarNodo"
           >Añadir Nodo</v-btn
@@ -51,11 +51,8 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
-import Nodo from "./Nodo.vue";
-import Store from "../store/index";
-import Edge from "./Edge";
 export default {
-  name: "Grafo",
+  name: "this.Grafo",
   created() {},
   data() {
     return {
@@ -63,10 +60,6 @@ export default {
       process: false,
       timeout: 20000,
     };
-  },
-  components: {
-    Nodo,
-    Edge,
   },
   methods: {
     ...mapMutations([
@@ -79,11 +72,11 @@ export default {
     Dijkstra() {
       let startpoint;
       this.verificar();
-      if (!Store.state.readyToCalculate) {
+      if (!this.readyToCalculate) {
         return;
       }
       this.process = true;
-      for (let nodo of Store.state.Grafo) {
+      for (let nodo of this.Grafo) {
         if (nodo.origin) {
           startpoint = nodo.id;
         }
@@ -92,25 +85,25 @@ export default {
     },
     analizarRuta(nodoActual) {
       let next = [];
-      if (Store.state.visited.length == Store.state.nodosCreados) {
+      if (this.visited.length == this.nodosCreados) {
         return;
       }
-      if (!Store.state.visited.includes(nodoActual)) {
-        for (let ruta of Store.state.Grafo[`${nodoActual}`].edges) {
-          // if (Store.state.Grafo[`${ruta.route.out}`].visited) {  //esto hace que no sirva
+      if (!this.visited.includes(nodoActual)) {
+        for (let ruta of this.Grafo[`${nodoActual}`].edges) {
+          // if (this.Grafo[`${ruta.route.out}`].this.visited) {  //esto hace que no sirva
           //   continue;
           // }
-          let dist = Store.state.Grafo[`${nodoActual}`].minDistance + ruta.peso;
+          let dist = this.Grafo[`${nodoActual}`].minDistance + ruta.peso;
           if (
-            Store.state.Grafo[`${ruta.route.out}`].minDistance == "∞" ||
-            Store.state.Grafo[`${ruta.route.out}`].minDistance > dist
+            this.Grafo[`${ruta.route.out}`].minDistance == "∞" ||
+            this.Grafo[`${ruta.route.out}`].minDistance > dist
           ) {
-            Store.state.Grafo[`${ruta.route.out}`].minDistance = dist;
+            this.Grafo[`${ruta.route.out}`].minDistance = dist;
           }
           next.push(ruta.route.out);
         }
-        // Store.state.Grafo[`${nodoActual}`].visited = true;   //esto hace que no sirva
-        Store.state.visited.push(nodoActual);
+        // this.Grafo[`${nodoActual}`].this.visited = true;   //esto hace que no sirva
+        this.visited.push(nodoActual);
         for (let i of next) {
           this.analizarRuta(i);
         }
@@ -129,6 +122,7 @@ export default {
       "readyToCalculate",
       "message",
       "messageActivator",
+      "visited",
     ]),
   },
 };
