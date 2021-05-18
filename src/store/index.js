@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     createdEdges : [],
     visited :[],
     edgeCounter : 0,
-    Grafo: [],
+    grafo: [],
     edgeData : {
       a: undefined,
       b: undefined,
@@ -30,17 +30,18 @@ const store = new Vuex.Store({
         state.message = "Se superó el maximo de nodos permitidos"
         return
       }
-      state.Grafo[`${state.nodosCreados}`] = {
+      state.grafo[`${state.nodosCreados}`] = {
           id: state.nodosCreados,
           minDistance: "∞",
           visited: false,
           edges: [],
-          origin: false
+          origin: false,
+          destiny: false
       }
       state.nodosCreados ++
       state.edgesToRender = []
       state.createdEdges = []
-      for(let e of state.Grafo){
+      for(let e of state.grafo){
         e.edges = []
       }
   },
@@ -50,10 +51,10 @@ const store = new Vuex.Store({
       state.message = "No hay mas nodos para eliminar"
       return
     }
-    state.Grafo.pop()
+    state.grafo.pop()
     state.nodosCreados --
     state.edgesToRender = []
-    for(let e of state.Grafo){
+    for(let e of state.grafo){
       e.edges = []
     }
   },
@@ -73,45 +74,69 @@ const store = new Vuex.Store({
       }
       state.createdEdges.push(`${edge.route.in}-${edge.route.out}`)
       state.edgesToRender.push(edge)
-      state.Grafo[`${state.edgeData.a}`].edges.push(edge)
+      state.grafo[`${state.edgeData.a}`].edges.push(edge)
       state.edgeCounter ++
       edge = {peso : state.edgeData.valueEdge , route : {in : state.edgeData.b,out : state.edgeData.a}, position : { a : state.edgeData.bPos, b : state.edgeData.aPos}, id : state.edgeCounter  }
       state.createdEdges.push(`${edge.route.in}-${edge.route.out}`)
-      state.Grafo[`${state.edgeData.b}`].edges.push(edge)
+      state.grafo[`${state.edgeData.b}`].edges.push(edge)
       state.edgeCounter ++
   },
   definirOrigen(state,selectNode){
-    for(let nodo of state.Grafo){
+    for(let nodo of state.grafo){
       if (nodo.origin){
-          state.Grafo[`${nodo.id}`].minDistance = "∞"
-          state.Grafo[`${nodo.id}`].visited = false
-          state.Grafo[`${nodo.id}`].origin = false
+          state.grafo[`${nodo.id}`].minDistance = "∞"
+          state.grafo[`${nodo.id}`].visited = false
+          state.grafo[`${nodo.id}`].origin = false
+          state.grafo[`${nodo.id}`].destiny = false
       }
     }
-    state.Grafo[`${selectNode}`].minDistance = 0
-    state.Grafo[`${selectNode}`].visited = true
-    state.Grafo[`${selectNode}`].origin = true
-    let aux = state.Grafo.pop()
-    state.Grafo.push(aux)
+    state.grafo[`${selectNode}`].minDistance = 0
+    state.grafo[`${selectNode}`].visited = true
+    state.grafo[`${selectNode}`].origin = true
+    state.grafo[`${selectNode}`].destiny = false
+    let aux = state.grafo.pop()
+    state.grafo.push(aux)
     state.messageActivator = true
     state.message = `se ha definido ${selectNode} como el origen`
   },
+  definirDestino(state,selectNode){
+    for(let nodo of state.grafo){
+      if (nodo.destiny){
+          state.grafo[`${nodo.id}`].minDistance = "∞"
+          state.grafo[`${nodo.id}`].visited = false
+          state.grafo[`${nodo.id}`].origin = false
+          state.grafo[`${nodo.id}`].destiny = false
+      }
+    }
+    state.grafo[`${selectNode}`].origin = false
+    state.grafo[`${selectNode}`].destiny = true
+    let aux = state.grafo.pop()
+    state.grafo.push(aux)
+    state.messageActivator = true
+    state.message = `se ha definido ${selectNode} como el destino`
+  },
   refresh(state){
-    let aux = state.Grafo.pop()
-    state.Grafo.push(aux)
+    let aux = state.grafo.pop()
+    state.grafo.push(aux)
   },
   verificar(state){
     let origin = false
     let edge = false
-    for(let nodo of state.Grafo){
+    let destiny = false
+    for(let nodo of state.grafo){
       if (nodo.origin){
         origin = true
+      }
+    }
+    for(let nodo of state.grafo){
+      if (nodo.destiny){
+        destiny = true
       }
     }
     if(state.createdEdges.length != 0){
       edge = true
     }
-    if(origin & edge){
+    if(origin & edge & destiny){
       state.messageActivator = true
       state.message = "Calculo Realizado"
       state.readyToCalculate = true
@@ -119,6 +144,10 @@ const store = new Vuex.Store({
     if(!origin){
       state.messageActivator = true
       state.message =  "No se ha fijado un origen"
+    }
+    if(!destiny){
+      state.messageActivator = true
+      state.message =  "No se ha fijado un destino"
     }
     if(!edge){
       state.messageActivator = true

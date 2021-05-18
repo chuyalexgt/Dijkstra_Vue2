@@ -15,9 +15,18 @@
           :peso="E.peso"
         ></Edge>
       </svg>
-      <Nodo v-for="N in this.Grafo" :key="N.id" :id="N.id" :tool="selectedOption" />
+      <Nodo
+        v-for="N in this.grafo"
+        :key="N.id"
+        :id="N.id"
+        :tool="selectedOption"
+        v-bind:class="{
+          destino: N.destiny,
+          origen: N.origin,
+        }"
+      />
     </div>
-    <div class="this.Grafo-adm">
+    <div class="this.grafo-adm">
       <div id="+-">
         <v-btn class="boton" :disabled="process" elevation="2" small @click="insertarNodo"
           >Añadir Nodo</v-btn
@@ -42,9 +51,11 @@
       <input type="radio" id="select_origin" value="S-O" v-model="selectedOption" />
       <label for="select_origin">Seleccionar origen</label>
       <br />
-      <input type="radio" id="create_edge" value="C-E" v-model="selectedOption" />
-      <label for="create_edge">Crear arista (relecciona dos nodos para unirlos)</label>
+      <input type="radio" id="createDestiny" value="S-D" v-model="selectedOption" />
+      <label for="createDestiny">Seleccionar destino</label>
       <br />
+      <input type="radio" id="createEdge" value="C-E" v-model="selectedOption" />
+      <label for="createEdge">Crear arista (relecciona dos nodos para unirlos)</label>
     </div>
   </div>
 </template>
@@ -52,7 +63,7 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 export default {
-  name: "this.Grafo",
+  name: "this.grafo",
   created() {},
   data() {
     return {
@@ -76,7 +87,7 @@ export default {
         return;
       }
       this.process = true;
-      for (let nodo of this.Grafo) {
+      for (let nodo of this.grafo) {
         if (nodo.origin) {
           startpoint = nodo.id;
         }
@@ -89,20 +100,20 @@ export default {
         return;
       }
       if (!this.visited.includes(nodoActual)) {
-        for (let ruta of this.Grafo[`${nodoActual}`].edges) {
-          // if (this.Grafo[`${ruta.route.out}`].this.visited) {  //esto hace que no sirva
+        for (let ruta of this.grafo[`${nodoActual}`].edges) {
+          // if (this.grafo[`${ruta.route.out}`].this.visited) {  //esto hace que no sirva
           //   continue;
           // }
-          let dist = this.Grafo[`${nodoActual}`].minDistance + ruta.peso;
+          let dist = this.grafo[`${nodoActual}`].minDistance + ruta.peso;
           if (
-            this.Grafo[`${ruta.route.out}`].minDistance == "∞" ||
-            this.Grafo[`${ruta.route.out}`].minDistance > dist
+            this.grafo[`${ruta.route.out}`].minDistance == "∞" ||
+            this.grafo[`${ruta.route.out}`].minDistance > dist
           ) {
-            this.Grafo[`${ruta.route.out}`].minDistance = dist;
+            this.grafo[`${ruta.route.out}`].minDistance = dist;
           }
           next.push(ruta.route.out);
         }
-        // this.Grafo[`${nodoActual}`].this.visited = true;   //esto hace que no sirva
+        // this.grafo[`${nodoActual}`].this.visited = true;   //esto hace que no sirva
         this.visited.push(nodoActual);
         for (let i of next) {
           this.analizarRuta(i);
@@ -117,7 +128,7 @@ export default {
   computed: {
     ...mapState([
       "nodosCreados",
-      "Grafo",
+      "grafo",
       "edgesToRender",
       "readyToCalculate",
       "message",

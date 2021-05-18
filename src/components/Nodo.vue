@@ -4,7 +4,7 @@
       <div>
         <button class="node" :id="createId()" @click="task(tool)">
           <span>{{ `N->${id}` }}</span>
-          <span>{{ `D= ${Grafo[id].minDistance}` }}</span>
+          <span>{{ `D= ${grafo[id].minDistance}` }}</span>
         </button>
       </div>
     </div>
@@ -60,10 +60,10 @@ export default {
   },
   props: ["id", "tool"],
   computed: {
-    ...mapState(["Grafo", "edgeData"]),
+    ...mapState(["grafo", "edgeData"]),
   },
   methods: {
-    ...mapMutations(["definirOrigen", "añadirEdge"]),
+    ...mapMutations(["definirOrigen", "añadirEdge", "definirDestino"]),
     task(tool) {
       if (this.readyToMerge) {
         this.edgeData.valueEdge = parseInt(this.value, 10);
@@ -77,6 +77,10 @@ export default {
       }
       if (tool == "S-O") {
         this.definirOrigen(this.id);
+        return;
+      }
+      if (tool == "S-D") {
+        this.definirDestino(this.id);
         return;
       }
       if (tool == "C-E") {
@@ -136,5 +140,11 @@ export default {
 .par {
   flex-grow: 2;
   margin-top: 80px;
+}
+.destino button {
+  background-color: rgb(155, 43, 43);
+}
+.origen button {
+  background-color: rgb(52, 155, 43);
 }
 </style>
