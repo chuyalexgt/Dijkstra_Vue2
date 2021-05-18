@@ -9,6 +9,7 @@
           v-bind:class="{ route: marcarRuta(E.id) }"
           v-for="E in edgesToRender"
           :key="E.id"
+          :id="E.id"
           :x1="E.position.a.x"
           :y1="E.position.a.y"
           :x2="E.position.b.x"
@@ -63,6 +64,7 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import _ from "lodash";
 export default {
   name: "this.grafo",
   created() {},
@@ -106,24 +108,25 @@ export default {
     },
     analizarRuta(nodoActual) {
       let next = [];
+      //condicion de corte
       if (this.visited.length == this.nodosCreados) {
         return;
       }
+      // condicion recursiva
       if (!this.visited.includes(nodoActual)) {
         for (let ruta of this.grafo[`${nodoActual}`].edges) {
-          // if (this.grafo[`${ruta.route.out}`].this.visited) {  //esto hace que no sirva
-          //   continue;
-          // }
-          let dist = this.grafo[`${nodoActual}`].minDistance + ruta.peso;
+          let dist = this.grafo[nodoActual].minDistance + ruta.peso;
+          let aux = _.cloneDeep(this.grafo[nodoActual].routeToArrive);
+          aux.push(ruta.id);
           if (
             this.grafo[`${ruta.route.out}`].minDistance == "∞" ||
             this.grafo[`${ruta.route.out}`].minDistance > dist
           ) {
             this.grafo[`${ruta.route.out}`].minDistance = dist;
+            this.grafo[`${ruta.route.out}`].routeToArrive = aux;
           }
           next.push(ruta.route.out);
         }
-        // this.grafo[`${nodoActual}`].this.visited = true;   //esto hace que no sirva
         this.visited.push(nodoActual);
         for (let i of next) {
           this.analizarRuta(i);

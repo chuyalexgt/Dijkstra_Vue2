@@ -76,7 +76,6 @@ const store = new Vuex.Store({
       state.createdEdges.push(`${edge.route.in}-${edge.route.out}`)
       state.edgesToRender.push(edge)
       state.grafo[`${state.edgeData.a}`].edges.push(edge)
-      state.edgeCounter ++
       edge = {peso : state.edgeData.valueEdge , route : {in : state.edgeData.b,out : state.edgeData.a}, position : { a : state.edgeData.bPos, b : state.edgeData.aPos}, id : state.edgeCounter  }
       state.createdEdges.push(`${edge.route.in}-${edge.route.out}`)
       state.grafo[`${state.edgeData.b}`].edges.push(edge)

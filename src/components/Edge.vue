@@ -18,7 +18,7 @@ export default {
   computed: {
     ...mapState(["value"]),
   },
-  props: ["x1", "x2", "y1", "y2", "peso"],
+  props: ["x1", "x2", "y1", "y2", "peso", "id"],
   methods: {
     showValue() {
       this.value = this.peso;
@@ -30,5 +30,8 @@ export default {
 <style lang="scss" scoped>
 .edge-value {
   stroke-width: 1;
+}
+.route line {
+  stroke: #3c09f3;
 }
 </style>
