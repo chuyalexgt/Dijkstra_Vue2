@@ -36,7 +36,8 @@ const store = new Vuex.Store({
           visited: false,
           edges: [],
           origin: false,
-          destiny: false
+          destiny: false,
+          routeToArrive : []
       }
       state.nodosCreados ++
       state.edgesToRender = []

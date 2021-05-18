@@ -6,6 +6,7 @@
     <div class="node-container">
       <svg class="connectors">
         <Edge
+          v-bind:class="{ route: marcarRuta(E.id) }"
           v-for="E in edgesToRender"
           :key="E.id"
           :x1="E.position.a.x"
@@ -80,6 +81,15 @@ export default {
       "verificar",
       "closeMessage",
     ]),
+    marcarRuta(id) {
+      for (let e of this.grafo) {
+        if (e.destiny) {
+          if (e.routeToArrive.includes(id)) {
+            return true;
+          }
+        }
+      }
+    },
     Dijkstra() {
       let startpoint;
       this.verificar();
