@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store/index'
-import vuetify from './plugins/vuetify'
+import vuetify from '@/plugins/vuetify'
 import Nodo from "./components/Nodo";
 import Edge from "./components/Edge";
 

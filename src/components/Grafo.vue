@@ -28,8 +28,8 @@
         }"
       />
     </div>
-    <div class="this.grafo-adm">
-      <div id="+-">
+    <div class="grafo-adm">
+      <div id="+-" class="center-items">
         <v-btn class="boton" :disabled="process" elevation="2" small @click="insertarNodo"
           >Añadir Nodo</v-btn
         >
@@ -48,16 +48,33 @@
           </template>
         </v-snackbar>
       </div>
-      <label for="+-">*Añadir o eliminar un nodo eliminará todas las aristas</label>
-      <br />
-      <input type="radio" id="select_origin" value="S-O" v-model="selectedOption" />
-      <label for="select_origin">Seleccionar origen</label>
-      <br />
-      <input type="radio" id="createDestiny" value="S-D" v-model="selectedOption" />
-      <label for="createDestiny">Seleccionar destino</label>
-      <br />
-      <input type="radio" id="createEdge" value="C-E" v-model="selectedOption" />
-      <label for="createEdge">Crear arista (relecciona dos nodos para unirlos)</label>
+
+      <template>
+        <v-container fluid class="center-items">
+          <v-radio-group v-model="selectedOption">
+            <v-radio value="S-O">
+              <template v-slot:label>
+                <div>Seleccionar <strong class="origin--text">Origen</strong></div>
+              </template>
+            </v-radio>
+            <v-radio value="S-D">
+              <template v-slot:label>
+                <div>Seleccionar <strong class="destiny--text">Destino</strong></div>
+              </template>
+            </v-radio>
+            <v-radio value="C-E">
+              <template v-slot:label>
+                <div>
+                  Crear arista
+                  <strong class="success--text"
+                    >(Selecciona dos nodos para unirlos)</strong
+                  >
+                </div>
+              </template>
+            </v-radio>
+          </v-radio-group>
+        </v-container>
+      </template>
     </div>
   </div>
 </template>
@@ -66,7 +83,7 @@
 import { mapMutations, mapState } from "vuex";
 import _ from "lodash";
 export default {
-  name: "this.grafo",
+  name: "grafo",
   created() {},
   data() {
     return {
@@ -176,5 +193,18 @@ export default {
 }
 .boton {
   margin: 15px;
+}
+.origin--text {
+  color: rgb(52, 155, 43);
+}
+.destiny--text {
+  color: rgb(155, 43, 43);
+}
+.grafo-adm {
+  height: 100%;
+}
+.center-items {
+  display: flex;
+  justify-content: center;
 }
 </style>
