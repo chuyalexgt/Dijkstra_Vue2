@@ -6,6 +6,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     nodosCreados: 0,
+    nodosDesconectados: 0,
+    listaNodosDesconectados:[],
     maxNodos: 30,
     readyToCalculate: false,
     message: "",
@@ -156,6 +158,29 @@ const store = new Vuex.Store({
   },
   closeMessage(state){
     state.messageActivator = false
+  },
+  excluirDesconectados(state){
+    for(let nodo of state.grafo){
+      if (nodo.edges.length == 0){
+        state.nodosDesconectados ++;
+        state.listaNodosDesconectados.push(nodo.id)
+      }
+    }
+  },
+  createEdge(state,data){
+    if ((state.edgeData.a == undefined) & (state.edgeData.b == undefined)) {
+      state.edgeData.a = data[0];
+      state.edgeData.aPos = data[1];
+      return ;
+    }
+    if (
+      (state.edgeData.a != undefined) &
+      (state.edgeData.b == undefined) //
+    ) {
+      state.edgeData.b = data[0];
+      state.edgeData.bPos = data[1];
+      return ;
+    }
   }
   },
 

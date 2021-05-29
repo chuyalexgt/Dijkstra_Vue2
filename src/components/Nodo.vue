@@ -1,8 +1,20 @@
 <template>
-  <div v-bind:class="{ par: id % 2 == 0 }">
+  <div
+    v-bind:class="{
+      par: id % 2 == 0,
+      desconectado: this.listaNodosDesconectados.includes(this.id),
+    }"
+  >
     <div>
       <div>
-        <button class="node" :id="createId()" @click="task(tool)">
+        <button
+          class="node"
+          :id="createId()"
+          @click="task(tool)"
+          v-bind:class="{
+            selected: (this.edgeData.a == this.id) | (this.edgeData.b == this.id),
+          }"
+        >
           <span>{{ `N->${id}` }}</span>
           <span>{{ `D= ${grafo[id].minDistance}` }}</span>
         </button>
@@ -60,10 +72,10 @@ export default {
   },
   props: ["id", "tool"],
   computed: {
-    ...mapState(["grafo", "edgeData"]),
+    ...mapState(["grafo", "edgeData", "listaNodosDesconectados"]),
   },
   methods: {
-    ...mapMutations(["definirOrigen", "añadirEdge", "definirDestino"]),
+    ...mapMutations(["definirOrigen", "añadirEdge", "definirDestino", "createEdge"]),
     task(tool) {
       if (this.readyToMerge) {
         this.edgeData.valueEdge = parseInt(this.value, 10);
@@ -77,27 +89,21 @@ export default {
       }
       if (tool == "S-O") {
         this.definirOrigen(this.id);
+        this.edgeData.a = undefined;
+        this.edgeData.b = undefined;
         return;
       }
       if (tool == "S-D") {
         this.definirDestino(this.id);
+        this.edgeData.a = undefined;
+        this.edgeData.b = undefined;
         return;
       }
       if (tool == "C-E") {
         this.calculatePosition();
-        if ((this.edgeData.a == undefined) & (this.edgeData.b == undefined)) {
-          this.edgeData.a = this.id;
-          this.edgeData.aPos = this.position;
-          return;
-        }
-        if (
-          (this.edgeData.a != undefined) &
-          (this.edgeData.b == undefined) //
-        ) {
-          this.edgeData.b = this.id;
-          this.edgeData.bPos = this.position;
+        this.createEdge([this.id, this.position]);
+        if ((this.edgeData.a != undefined) & (this.edgeData.b !== undefined)) {
           this.dialog = true;
-          return;
         }
       }
     },
@@ -131,20 +137,46 @@ export default {
   align-items: center;
   justify-self: center;
   justify-content: center;
-  background-color: rgb(43, 155, 155);
+  border: 2px solid rgb(8, 112, 112);
+  box-shadow: inset 2px 2px 2px 1px white;
+  box-shadow: inset -2px -2px 2px 1px black;
+  background-color: rgb(22, 199, 199);
   width: calc(40px + 2vw);
   height: calc(40px + 2vw);
   border-radius: 50%;
   margin: 40px;
+  transition: box-shadow 0.5s;
 }
 .par {
   flex-grow: 2;
   margin-top: 80px;
 }
-.destino button {
+.destino .node {
   background-color: rgb(155, 43, 43);
+  box-shadow: inset -2px -2px 2px 1px white;
+  box-shadow: inset 2px 2px 2px 1px black;
 }
-.origen button {
+.origen .node {
   background-color: rgb(52, 155, 43);
+  box-shadow: inset -2px -2px 2px 1px white;
+  box-shadow: inset 2px 2px 2px 1px black;
+}
+@keyframes pulse {
+  from {
+    box-shadow: 0px 0px 9px -3px rgb(50, 156, 226);
+  }
+
+  to {
+    box-shadow: 0px 0px 25px 1px rgb(50, 156, 226);
+  }
+}
+.selected {
+  animation-duration: 0.5s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.desconectado {
+  visibility: hidden;
 }
 </style>

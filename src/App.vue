@@ -1,21 +1,22 @@
 <template>
-  <Grafo/>
+  <Grafo />
 </template>
 
 <script>
-import Grafo from './components/Grafo.vue'
+import Grafo from "./components/Grafo.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Grafo
-  }
-}
+    Grafo,
+  },
+};
 </script>
 
 <style lang="scss">
-body{
-  margin:0px;
+body {
+  background-color: rgb(226, 235, 234);
+  margin: 0px;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

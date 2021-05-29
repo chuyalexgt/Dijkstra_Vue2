@@ -1,8 +1,5 @@
 <template>
   <div class="workspace">
-    <div class="node-counter">
-      <h2>Nodos creados: {{ nodosCreados }}</h2>
-    </div>
     <div class="node-container">
       <svg class="connectors">
         <Edge
@@ -40,7 +37,14 @@
           >Iniciar Cálculo</v-btn
         >
         <v-btn class="boton" elevation="2" small @click="reload">Reiniciar</v-btn>
-        <v-snackbar v-model="messageActivator" :timeout="timeout">
+        <v-snackbar
+          v-model="messageActivator"
+          :timeout="timeout"
+          color="blue-grey"
+          absolute
+          rounded="pill"
+          bottom
+        >
           {{ message }}
 
           <template>
@@ -99,6 +103,7 @@ export default {
       "refresh",
       "verificar",
       "closeMessage",
+      "excluirDesconectados",
     ]),
     marcarRuta(id) {
       for (let e of this.grafo) {
@@ -112,6 +117,7 @@ export default {
     Dijkstra() {
       let startpoint;
       this.verificar();
+      this.excluirDesconectados();
       if (!this.readyToCalculate) {
         return;
       }
@@ -126,7 +132,7 @@ export default {
     analizarRuta(nodoActual) {
       let next = [];
       //condicion de corte
-      if (this.visited.length == this.nodosCreados) {
+      if (this.visited.length == this.nodosCreados - this.nodosDesconectados) {
         return;
       }
       // condicion recursiva
@@ -158,6 +164,7 @@ export default {
   computed: {
     ...mapState([
       "nodosCreados",
+      "nodosDesconectados",
       "grafo",
       "edgesToRender",
       "readyToCalculate",
@@ -170,19 +177,34 @@ export default {
 </script>
 
 <style lang="scss">
+@mixin card {
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(243, 242, 242);
+  box-shadow: 0px 0px 15px -4px #000000;
+  border-radius: 10px;
+}
 .workspace {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(226, 235, 234);
+}
+.grafo-adm {
+  width: 50%;
+  @include card;
 }
 .node-container {
-  width: 100%;
-  height: 50%;
+  width: calc(100% - 20px);
+  @include card;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
   box-sizing: border-box;
   position: relative;
+  margin: 20px;
 }
 .connectors {
   position: absolute;
