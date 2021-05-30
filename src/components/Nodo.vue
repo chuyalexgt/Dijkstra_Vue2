@@ -15,7 +15,7 @@
             selected: (this.edgeData.a == this.id) | (this.edgeData.b == this.id),
           }"
         >
-          <span>{{ `N->${id}` }}</span>
+          <span class="node-text">{{ `N->${id}` }}</span>
           <span>{{ `D= ${grafo[id].minDistance}` }}</span>
         </button>
       </div>
@@ -25,8 +25,8 @@
         <v-dialog
           v-model="dialog"
           persistent
-          max-width="30%"
           transition="dialog-bottom-transition"
+          max-width="450px"
         >
           <v-card>
             <v-card-title>
@@ -141,11 +141,14 @@ export default {
   box-shadow: inset 2px 2px 2px 1px white;
   box-shadow: inset -2px -2px 2px 1px black;
   background-color: rgb(22, 199, 199);
-  width: calc(40px + 2vw);
-  height: calc(40px + 2vw);
+  width: calc(55px + 2vw);
+  height: calc(55px + 2vw);
   border-radius: 50%;
-  margin: 40px;
+  margin: calc(10px + 2vw);
   transition: box-shadow 0.5s;
+}
+.node-text {
+  font-size: 0.9rem;
 }
 .par {
   flex-grow: 2;

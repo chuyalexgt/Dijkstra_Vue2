@@ -26,7 +26,7 @@
       />
     </div>
     <div class="grafo-adm">
-      <div id="+-" class="center-items">
+      <div class="grafo-adm_buttons">
         <v-btn class="boton" :disabled="process" elevation="2" small @click="insertarNodo"
           >Añadir Nodo</v-btn
         >
@@ -52,33 +52,34 @@
           </template>
         </v-snackbar>
       </div>
-
-      <template>
-        <v-container fluid class="center-items">
-          <v-radio-group v-model="selectedOption">
-            <v-radio value="S-O">
-              <template v-slot:label>
-                <div>Seleccionar <strong class="origin--text">Origen</strong></div>
-              </template>
-            </v-radio>
-            <v-radio value="S-D">
-              <template v-slot:label>
-                <div>Seleccionar <strong class="destiny--text">Destino</strong></div>
-              </template>
-            </v-radio>
-            <v-radio value="C-E">
-              <template v-slot:label>
-                <div>
-                  Crear arista
-                  <strong class="success--text"
-                    >(Selecciona dos nodos para unirlos)</strong
-                  >
-                </div>
-              </template>
-            </v-radio>
-          </v-radio-group>
-        </v-container>
-      </template>
+      <div class="grafo-adm_tools">
+        <template>
+          <v-container fluid class="center-items">
+            <v-radio-group v-model="selectedOption">
+              <v-radio value="S-O">
+                <template v-slot:label>
+                  <div>Seleccionar <strong class="origin--text">Origen</strong></div>
+                </template>
+              </v-radio>
+              <v-radio value="S-D">
+                <template v-slot:label>
+                  <div>Seleccionar <strong class="destiny--text">Destino</strong></div>
+                </template>
+              </v-radio>
+              <v-radio value="C-E">
+                <template v-slot:label>
+                  <div>
+                    Crear arista
+                    <strong class="success--text"
+                      >(Selecciona dos nodos para unirlos)</strong
+                    >
+                  </div>
+                </template>
+              </v-radio>
+            </v-radio-group>
+          </v-container>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -117,10 +118,10 @@ export default {
     Dijkstra() {
       let startpoint;
       this.verificar();
-      this.excluirDesconectados();
       if (!this.readyToCalculate) {
         return;
       }
+      this.excluirDesconectados();
       this.process = true;
       for (let nodo of this.grafo) {
         if (nodo.origin) {
@@ -192,8 +193,10 @@ export default {
   background-color: rgb(226, 235, 234);
 }
 .grafo-adm {
-  width: 50%;
+  width: 60%;
   @include card;
+  display: flex;
+  flex-direction: column;
 }
 .node-container {
   width: calc(100% - 20px);
@@ -213,20 +216,21 @@ export default {
   stroke: #000000;
   stroke-width: 6;
 }
-.boton {
-  margin: 15px;
-}
 .origin--text {
   color: rgb(52, 155, 43);
 }
 .destiny--text {
   color: rgb(155, 43, 43);
 }
-.grafo-adm {
-  height: 100%;
-}
-.center-items {
+.grafo-adm_buttons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  .boton {
+    width: 70%;
+    max-width: 180px;
+    background-color: #00897b !important;
+    margin: 15px;
+  }
 }
 </style>

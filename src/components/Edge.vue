@@ -1,12 +1,7 @@
 <template>
   <svg>
-    <line
-      :x1="this.x1 + 15"
-      :y1="this.y1 + 15"
-      :x2="this.x2 + 15"
-      :y2="this.y2 + 15"
-    ></line>
-    <text class="edge-value" :x="(x2 + x1 + 20) / 2 + 15" :y="(y2 + y1 - 20) / 2 + 15">
+    <line :x1="this.x1" :y1="this.y1" :x2="this.x2" :y2="this.y2"></line>
+    <text class="edge-value" :x="(x2 + x1 + 5) / 2" :y="(y2 + y1 - 15) / 2">
       {{ peso }}
     </text>
   </svg>
@@ -39,8 +34,6 @@ export default {
 }
 .route line {
   stroke: #3c09f3;
-}
-.route svg {
-  z-index: 1;
+  animation-duration: 0.1s;
 }
 </style>
